@@ -14,20 +14,17 @@
 #  limitations under the License.
 
 version ?= none
+version = cws-1.0
 
 build: dist/docker
-	cp ../nextflow .
-	docker build --platform linux/amd64 --output=type=docker --progress=plain --tag nextflow/nextflow:${version} .
+	cp ../build/releases/nextflow*-all nextflow
+	docker build --output=type=docker --progress=plain --tag nextflow/nextflow:${version} .
+#	docker build --platform linux/amd64 --output=type=docker --progress=plain --tag nextflow/nextflow:${version} .
 
 release: build
-	docker tag nextflow/nextflow:${version} nextflow/nextflow:latest
-	docker push nextflow/nextflow:${version}
-	docker push nextflow/nextflow:latest
-	#
-	docker tag nextflow/nextflow:${version} public.ecr.aws/seqera-labs/nextflow:${version}
-	docker tag nextflow/nextflow:${version} public.ecr.aws/seqera-labs/nextflow:latest
-	docker push public.ecr.aws/seqera-labs/nextflow:${version}
-	docker push public.ecr.aws/seqera-labs/nextflow:latest
+	docker tag nextflow/nextflow:${version} leshl/nextflow:latest
+	docker push leshl/nextflow:latest
+
 
 #Static builds can now be found at:
 #
@@ -36,8 +33,9 @@ release: build
 #  Windows: https://download.docker.com/win/static
 
 dist/docker:
-	mkdir -p dist/linux/amd64
-	curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-17.09.0-ce.tgz | tar --strip-components=1 -xvz -C dist/linux/amd64
+	mkdir -p dist/mac/arm64
+	curl -fsSL https://download.docker.com/mac/static/stable/aarch64/docker-24.0.7.tgz | tar --strip-components=1 -xvz -C dist/mac/arm64
+#	 curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-17.09.0-ce.tgz | tar --strip-components=1 -xvz -C dist/linux/amd64
 #	mkdir -p dist/linux/arm64
 #	curl -fsSL https://download.docker.com/linux/static/stable/aarch64/docker-17.09.0-ce.tgz | tar --strip-components=1 -xvz -C dist/linux/arm64
 

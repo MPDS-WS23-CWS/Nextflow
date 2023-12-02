@@ -2,7 +2,7 @@ FROM amazoncorretto:17.0.4
 RUN yum install -y procps-ng
 
 ENV NXF_HOME=/.nextflow
-ARG TARGETPLATFORM=linux/amd64
+ARG TARGETPLATFORM=mac/arm64
 
 # copy docker client
 COPY dist/${TARGETPLATFORM}/docker /usr/local/bin/docker
