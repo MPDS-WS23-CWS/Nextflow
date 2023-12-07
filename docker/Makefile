@@ -16,18 +16,12 @@
 version ?= none
 
 build: dist/docker
-	cp ../nextflow .
+	cp ../build/releases/nextflow*-all nextflow
 	docker build --platform linux/amd64 --output=type=docker --progress=plain --tag nextflow/nextflow:${version} .
 
 release: build
-	docker tag nextflow/nextflow:${version} nextflow/nextflow:latest
-	docker push nextflow/nextflow:${version}
-	docker push nextflow/nextflow:latest
-	#
-	docker tag nextflow/nextflow:${version} public.ecr.aws/seqera-labs/nextflow:${version}
-	docker tag nextflow/nextflow:${version} public.ecr.aws/seqera-labs/nextflow:latest
-	docker push public.ecr.aws/seqera-labs/nextflow:${version}
-	docker push public.ecr.aws/seqera-labs/nextflow:latest
+	docker tag nextflow/nextflow:${version} juscou/cws:1.0
+	docker push juscou/cws:1.0
 
 #Static builds can now be found at:
 #
